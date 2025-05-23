@@ -1,113 +1,76 @@
+
 import React, { useState } from 'react'
 import "./App.css"
+
 const App = () => {
-const electronicsArray = [
 
-    {id:1,name:"Laptops"},
-    {id:2,name:"Smartphones"}
+  const electronicsData = [
+    {name:"LapTops"},
+    {name:"Smartphones"}
+  ]
 
-]
-const fashionData = [
+  const fashionsData = [
+    {name:"Men's ware"},
+    {name:"Women's ware"}
+  ]
 
-    {id:1,name:"Men's Wear"},
-    {id:2,name:"WoMen's Wear"}
+  const [product , setProduct] = useState([]);
+  const [category , setCategory] = useState("Please select category");
 
-]
-const [electronics , setElectroncis]= useState([]);
-const [fashion , setFashion]= useState([]);
-const [state , setState] = useState(false);
+  const [cart , setCart] = useState([]);
 
-const [data ,setData]= useState([]);
-
-const [category ,setCategory] = useState("Please Select a category");
-
-console.log(data);
-
-
-
-
-const handleElectBtn = ()=>{
-    setElectroncis(electronicsArray)
-    setState(true)
+  const handleData = (item)=>{
+    setProduct(item)
     setCategory("")
-}
 
-const handleFashBtn = ()=>{
-    setFashion(fashionData)
-    setState(false)
-    setCategory("")
-}
 
-const handelAddToCart = (item)=>{
+  }
 
+  const  hadleAddToCartBtn =(item)=>{
     console.log(item);
-setData((pre)=> [...pre ,item])   
+    setCart((pre)=>[...pre ,item])
     
-    
-
-}
-
-
+  }
 
   return (
     <div>
 
-        <div className='container-wrap'>
-            <div className='left'>
-            <h1>Categories</h1>
-            <button onClick={handleElectBtn}>Electronics</button>
-            <button onClick={handleFashBtn} >Fashions</button>
-
-            </div>
-             <div className='right'>
-                <h1>Products</h1>
-                <p>{category}</p>
-                <h3></h3>
-                {state?<>
-                  <table>
-                    {electronics.map((m, i)=>{
-                        return <>
-                        <tr key={i}>
-                        <td>{m.name}</td>
-                        <td><button onClick={()=>handelAddToCart(m)} >Add to Cart</button></td>
-                    </tr>
-                        </>
-                    })}
-                    
-                    
-                </table>
-                
-                </>:<>
-                  <table>
-                    {fashion.map((m)=>{
-                        return <>
-                        <tr>
-                        <td>{m.name}</td>
-                        <td><button  onClick={()=>handelAddToCart(m)}>Add to Cart</button></td>
-                    </tr>
-                        </>
-                    })}
-                    
-                   
-                </table>
-                </>}
-              
-            </div>
-
-            
+      <div className='container-wrap'>
+        <div className='left'>
+          <h1>Category</h1>
+          <button onClick={()=>handleData(electronicsData)}>Electronics</button>
+          <button onClick={()=>handleData(fashionsData)}>Fashions</button>
+        </div>
+        <div className='right'>
+          <h1>Products</h1>
+          {category}
+          {product.length>0 && (
+            <table>
+              {product.map((p,i)=>{
+                return<>
+                <tr key={i}>
+                  <td>{p.name}</td>
+                  <td> <button onClick={()=>hadleAddToCartBtn(p)}>Add to cart</button></td>
+                </tr>
+                </>
+              })}
+            </table>
+          )}
 
         </div>
-        <div className='container-below'>
-                <h1>Cart({data.length} items)</h1>
-                {data.map((m)=>{
-                    return <p>{m.name}</p>
+      </div>
+      <div className='container-below'>
+        <h1>Cart({cart.length} items)</h1>
 
-                })}
+        {cart.map((c)=>{
+          return<>
+          <p>{c.name}</p>
+          </>
+        })}
 
 
-            </div>
+      </div>
     </div>
-
   )
 }
 
